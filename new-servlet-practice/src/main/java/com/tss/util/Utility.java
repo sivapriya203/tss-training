@@ -5,17 +5,18 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.regex.Pattern;
 
 public class Utility {
-	
-	/** 
+
+	/**
 	 * This method checks weather the given email is valid or not.
 	 * 
 	 * @param email - emailId of the user
 	 * @return boolean
 	 * @author Siva Priya
-	 * @since 2022-01-10
+	 * @since 2022-01-07
 	 */
 	public static boolean validateEmail(String email) {
 		if (isBlank(email)) {
@@ -27,9 +28,12 @@ public class Utility {
 	}
 
 	/**
+	 * This method checks weather the given mobile number is valid or not.
 	 * 
 	 * @param number - Mobile number of the user
-	 * @return - Check the mobile number correct or not
+	 * @return boolean
+	 * @author Siva Priya
+	 * @since 2022-01-07
 	 */
 	public static boolean isValidMobileNo(String number) {
 		if (isBlank(number)) {
@@ -43,7 +47,9 @@ public class Utility {
 	/**
 	 * 
 	 * @param obj - object take from user
-	 * @return
+	 * @return boolean
+	 * @author Siva Priya
+	 * @since 2022-01-07
 	 */
 	public static boolean isBlank(Object obj) {
 		if (obj == null)
@@ -73,7 +79,9 @@ public class Utility {
 
 	/**
 	 * 
-	 * @param args
+	 * @param args - Print the output
+	 * @author Siva Priya
+	 * @since 2022-01-07
 	 */
 	public static void main(String[] args) {
 		String name = "Sivapriya";
@@ -87,9 +95,16 @@ public class Utility {
 
 	}
 
-	public static int generateOtp() {
-		int random = (int) (Math.random() * 9000) + 1000;
-		int otp = Integer.valueOf(random);
+	/**
+	 * 
+	 * @param length - length of the input
+	 * @return Integer
+	 * @author Siva Priya
+	 * @since 2022-01-07
+	 */
+	public static int generateOtp(int length) {
+		Random random = new Random();
+		int otp = random.nextInt(length);
 		return otp;
 	}
 
