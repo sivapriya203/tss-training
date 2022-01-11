@@ -5,14 +5,17 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
 import java.util.regex.Pattern;
 
 public class Utility {
-	/**
+	
+	/** 
+	 * This method checks weather the given email is valid or not.
 	 * 
 	 * @param email - emailId of the user
-	 * @return - Check the emailId correct or not
+	 * @return boolean
+	 * @author Siva Priya
+	 * @since 2022-01-10
 	 */
 	public static boolean validateEmail(String email) {
 		if (isBlank(email)) {
@@ -39,7 +42,7 @@ public class Utility {
 
 	/**
 	 * 
-	 * @param obj
+	 * @param obj - object take from user
 	 * @return
 	 */
 	public static boolean isBlank(Object obj) {
@@ -84,18 +87,10 @@ public class Utility {
 
 	}
 
-	/**
-	 * 
-	 * @param length
-	 * @return
-	 */
-	public static char[] otpGeneration(int length) {
-		String numbers = "0123456789";
-		Random rndm = new Random();
-		char[] otp = new char[length];
-		for (int i = 0; i < length; i++) {
-			otp[i] = numbers.charAt(rndm.nextInt(numbers.length()));
-		}
+	public static int generateOtp() {
+		int random = (int) (Math.random() * 9000) + 1000;
+		int otp = Integer.valueOf(random);
 		return otp;
 	}
+
 }

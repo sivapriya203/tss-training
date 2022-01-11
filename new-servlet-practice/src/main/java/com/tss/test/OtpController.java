@@ -16,18 +16,19 @@ import com.tss.util.Utility;
 public class OtpController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
 		String numbr = request.getParameter("num");
-		if (Utility.isValidMobileNo(numbr)) {
-			out.print("<h3>Your OTP is: </h3>");
-			out.print(Utility.otpGeneration(4));
-		} else {
-			out.print("<center><h2 style=color:red>** Invalid Number</h2></center>");
-			RequestDispatcher reqDispatcher = request.getRequestDispatcher("/otp.html");
-			reqDispatcher.include(request, response);
-		}
-	}
+			if (Utility.isValidMobileNo(numbr)) {
+				out.print("<h3>Your OTP is: </h3>");
+				out.print(Utility.generateOtp());
+			} else {
+				out.print("<center><h2 style=color:red>** Invalid Number</h2></center>");
+				RequestDispatcher reqDispatcher = request.getRequestDispatcher("/otp.html");
+				reqDispatcher.include(request, response);
+			}
 
+	}
 }
