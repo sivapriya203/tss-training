@@ -130,14 +130,10 @@ public class Utility {
 	 * @since 2022-01-07
 	 */
 	public static boolean uploadFile(Part filePart) throws IOException {
-		if (isBlank(filePart)) {
-			return false;
-		}
 		String fileName = filePart.getSubmittedFileName();
 		File file = new File("F:\\images\\" + File.separator + fileName);
 		Files.copy(filePart.getInputStream(), file.toPath(), StandardCopyOption.REPLACE_EXISTING);
 		return true;
-
 	}
 
 }
