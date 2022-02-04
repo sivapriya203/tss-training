@@ -136,4 +136,181 @@ public class Utility {
 		return true;
 	}
 
+	/**
+	 * This method is used to take a particular word or sentence
+	 * 
+	 * @param data
+	 * @param start
+	 * @param end
+	 * @return String
+	 * @author Siva Priya
+	 * @since 2022-01-07
+	 */
+	public static String typeA(String data, String start, String end) {
+		try {
+			if (isBlank(data) || isBlank(start) || isBlank(end)) {
+				return "";
+			}
+			if (data.indexOf(start) != -1) {
+				int endStr = data.indexOf(end, data.indexOf(start) + start.length());
+				if (endStr != -1) {
+					return data.substring(data.indexOf(start) + start.length(), endStr);
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "";
+	}
+
+	/**
+	 * This method is used to print string after label
+	 * 
+	 * @param data
+	 * @param label
+	 * @param position
+	 * @return String
+	 * @author Siva Priya
+	 * @since 2022-01-07
+	 */
+
+	public static String typeB(String data, String label, String position) {
+		try {
+			if (isBlank(data) || isBlank(label)) {
+				return "";
+			}
+			if (isBlank(position)) {
+				position = "any";
+			}
+			String lines[] = data.split("\r\n");
+			for (String line : lines) {
+				if (position.equalsIgnoreCase("start") && line.startsWith(label)) {
+					return line.substring(line.indexOf(label) + label.length());
+				}
+				if (position.equalsIgnoreCase("any") && line.contains(label)) {
+					return line.substring(line.indexOf(label) + label.length());
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "";
+	}
+
+	/**
+	 * This method is used to print string in between label and end
+	 * 
+	 * @param data
+	 * @param label
+	 * @param position
+	 * @param start
+	 * @param end
+	 * @return String
+	 * @author Siva Priya
+	 * @since 2022-01-07
+	 */
+
+	public static String typeC(String data, String label, String position, String start, String end) {
+		try {
+			if (isBlank(data) || isBlank(label) || isBlank(start) || isBlank(end)) {
+				return "";
+			}
+			if (isBlank(position)) {
+				position = "any";
+			}
+			String lines[] = data.split("\r\n");
+			for (String line : lines) {
+				if (position.equalsIgnoreCase("any") && line.indexOf(label) > line.indexOf(start)
+						&& line.indexOf(label) < line.indexOf(end)) {
+					return line.substring(line.indexOf(label) + label.length(), line.indexOf(end)).trim();
+				}
+				if (position.equalsIgnoreCase("start") && line.contains(label) && line.contains(start)
+						&& line.contains(end) && line.startsWith(start) && line.endsWith(end)) {
+					return line.substring(line.indexOf(label) + label.length(), line.indexOf(end)).trim();
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "";
+	}
+
+	/**
+	 * This method is used to print String to camelCase
+	 * 
+	 * @param text
+	 * @return String
+	 * @author Siva Priya
+	 * @since 2022-01-07
+	 */
+	public static String camelCase(String text) {
+		if (isBlank(text)) {
+			return "";
+		}
+		StringBuilder str = new StringBuilder();
+		Boolean nextCapital = false;
+		for (int i = 0; i < text.length(); i++) {
+			if (Character.isLetter(text.charAt(i))) {
+				char temp = text.charAt(i);
+				if (nextCapital)
+					temp = Character.toUpperCase(temp);
+				str.append(temp);
+				nextCapital = false;
+			} else {
+				nextCapital = true;
+			}
+		}
+		return str.toString();
+	}
+
+	/**
+	 * This method is used to print String to pascalCase
+	 * 
+	 * @param text
+	 * @return String
+	 * @author Siva Priya
+	 * @since 2022-01-07
+	 */
+	public static String pascalCase(String text) {
+		if (isBlank(text)) {
+			return "";
+		}
+		text = text.substring(0, 1).toUpperCase() + text.substring(1);
+		StringBuilder builder = new StringBuilder(text);
+		for (int i = 0; i < builder.length(); i++) {
+			if (builder.charAt(i) == ' ') {
+				builder.deleteCharAt(i);
+				builder.replace(i, i + 1, String.valueOf(Character.toUpperCase(builder.charAt(i))));
+			}
+		}
+		return builder.toString();
+	}
+
+	/**
+	 * This method is used to print String to titlelCase
+	 * 
+	 * @param text
+	 * @return String
+	 * @author Siva Priya
+	 * @since 2022-01-07
+	 */
+	public static String titleCase(String text) {
+		if (isBlank(text)) {
+			return "";
+		}
+		StringBuilder converted = new StringBuilder();
+		boolean convertNext = true;
+		for (char ch : text.toCharArray()) {
+			if (Character.isSpaceChar(ch)) {
+				convertNext = true;
+			} else if (convertNext) {
+				ch = Character.toTitleCase(ch);
+				convertNext = false;
+			} else {
+				ch = Character.toLowerCase(ch);
+			}
+			converted.append(ch);
+		}
+		return converted.toString();
+	}
 }

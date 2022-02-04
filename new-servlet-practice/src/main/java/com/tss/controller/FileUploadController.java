@@ -17,9 +17,7 @@ import com.tss.util.Utility;
 		* 100)
 public class FileUploadController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html");
 		Part filePart = request.getPart("file");
 		if (Utility.uploadFile(filePart)) {
