@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.lang.reflect.Array;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -312,5 +313,53 @@ public class Utility {
 			converted.append(ch);
 		}
 		return converted.toString();
+	}
+	
+	/**
+	 * 
+	 * @param length
+	 * @return String
+	 * @author Siva Priya
+	 * @since 2022-03-02
+	 */
+	public static String generateAlphanumeric(int length) {
+		if (Utility.isBlank(length) || length < 4 || length > 12) {
+			return "";
+		}
+		int i=0;
+		String alphabet = "1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+		StringBuilder str = new StringBuilder();
+		SecureRandom random = new SecureRandom();
+		while (i < length) {
+			int index = random.nextInt(alphabet.length());
+			char randomChar = alphabet.charAt(index);
+			str.append(randomChar);
+			i++;
+			if ((str.toString().matches("[A-Z][0-9]") && length == str.toString().length())) {
+				break;
+			} else {
+				continue;
+			}
+		}
+		return str.toString();
+	}
+	
+	/**
+	 * 
+	 * @param length
+	 * @param count
+	 * @return String
+	 * @author Siva Priya
+	 * @since 2022-03-02
+	 */
+	public static ArrayList<String> generateAlphanumeric(int length, int count) {
+		ArrayList<String> value =new ArrayList<String>();
+		if (Utility.isBlank(count)) {
+			return null;
+		}
+		for (int j = 0; j < count; j++) {
+			value.add(generateAlphanumeric(length));
+		}
+		return value;
 	}
 }
