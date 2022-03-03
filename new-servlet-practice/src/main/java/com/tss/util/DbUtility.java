@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class DbUtility {
+
 	/**
 	 * This method gives database connection to all methods
 	 * 
@@ -20,7 +21,8 @@ public class DbUtility {
 	 */
 	public static Connection getConnection(String host, int port, String schema, String userName, String password) throws SQLException {
 		Connection connection = null;
-		connection = DriverManager.getConnection("jdbc:mysql://" + host + ":" + port + "/" + schema, userName, password);
+		connection = DriverManager.getConnection("jdbc:mysql://" + host + ":" + port + "/" + schema, userName,
+				password);
 		// connection.setAutoCommit(false);
 		return connection;
 	}
@@ -36,7 +38,7 @@ public class DbUtility {
 			connection.close();
 		}
 	}
-    
+
 	/**
 	 * This method is used to insert the data into the table
 	 * 
@@ -48,13 +50,13 @@ public class DbUtility {
 	 * @param location
 	 * @return String
 	 */
-	public static String insert(Connection connection, String sql,String name,String phoneNo,String emailId,String location){
+	public static String insert(Connection connection, String sql, Object... objects) {
 		try {
 			PreparedStatement statement = connection.prepareStatement(sql);
-			statement.setObject(1, name);
-			statement.setObject(2, phoneNo);
-			statement.setObject(3, emailId);
-			statement.setObject(4, location);
+			int index = 0;
+			for (Object values : objects) {
+				statement.setObject(++index, values);
+			}
 			int rows = statement.executeUpdate();
 			if (rows > 0) {
 				return "Row is inserted";
@@ -64,7 +66,7 @@ public class DbUtility {
 		}
 		return "";
 	}
-    
+
 	/**
 	 * This method used to read the data from the table
 	 * 
@@ -72,7 +74,7 @@ public class DbUtility {
 	 * @param sql
 	 * @return String
 	 */
-	public static String select(Connection connection, String sql) {
+	public static String select(Connection connection, String sql,Object...objects) {
 		try {
 			PreparedStatement statement = connection.prepareStatement(sql);
 			ResultSet result = statement.executeQuery(sql);
@@ -82,15 +84,15 @@ public class DbUtility {
 				String phoneNo = result.getString("phoneNo");
 				String emailId = result.getString("emailId");
 				String location = result.getString("location");
-				String data = id + ":" + name + "," + phoneNo + "," + emailId + "," + location; 
-			    return data.toString();
+				String data = id + ":" + name + "," + phoneNo + "," + emailId + "," + location;
+				return data.toString();
 			}
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		}
 		return "";
 	}
-     
+
 	/**
 	 * 
 	 * @param connection
@@ -98,20 +100,20 @@ public class DbUtility {
 	 * @param name
 	 * @return String
 	 */
-	public static String update(Connection connection, String sql, String name) {
-		try{
+	public static String update(Connection connection, String sql, Object object) {
+		try {
 			PreparedStatement statement = connection.prepareStatement(sql);
-			statement.setString(1, name);
+			statement.setObject(1, object);
 			int rows = statement.executeUpdate();
 			if (rows > 0) {
 				return "update successfully";
 			}
-		} catch(SQLException ex)  {
+		} catch (SQLException ex) {
 			ex.printStackTrace();
 		}
 		return "update successfully";
 	}
-    
+
 	/**
 	 * 
 	 * @param connection
@@ -119,10 +121,10 @@ public class DbUtility {
 	 * @param name
 	 * @return String
 	 */
-	public static String delete(Connection connection, String sql, String name) {
+	public static String delete(Connection connection, String sql, Object obj) {
 		try {
 			PreparedStatement statement = connection.prepareStatement(sql);
-			statement.setString(1, name);
+			statement.setObject(1, obj);
 			int rows = statement.executeUpdate();
 			if (rows > 0) {
 				return "Row is deleted";
@@ -132,5 +134,4 @@ public class DbUtility {
 		}
 		return "Row is deleted";
 	}
-
 }

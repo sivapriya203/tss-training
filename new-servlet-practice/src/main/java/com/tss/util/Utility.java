@@ -11,6 +11,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.servlet.http.Part;
@@ -62,6 +63,8 @@ public class Utility {
 	public static boolean isBlank(Object obj) {
 		if (obj == null)
 			return true;
+		else if (obj instanceof File)
+			return !(((File) obj).isFile());
 		else if (obj instanceof String)
 			return ((String) obj).trim().equals("");
 		else if (obj instanceof Collection)
@@ -314,7 +317,7 @@ public class Utility {
 		}
 		return converted.toString();
 	}
-	
+
 	/**
 	 * 
 	 * @param length
@@ -324,9 +327,9 @@ public class Utility {
 	 */
 	public static String generateAlphanumeric(int length) {
 		if (Utility.isBlank(length) || length < 4 || length > 12) {
-			return "";
+			return null;
 		}
-		int i=0;
+		int i = 0;
 		String alphabet = "1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 		StringBuilder str = new StringBuilder();
 		SecureRandom random = new SecureRandom();
@@ -335,15 +338,11 @@ public class Utility {
 			char randomChar = alphabet.charAt(index);
 			str.append(randomChar);
 			i++;
-			if ((str.toString().matches("[A-Z][0-9]") && length == str.toString().length())) {
-				break;
-			} else {
-				continue;
-			}
 		}
 		return str.toString();
+		// return generateAlphanumeric(length,1).get(0);
 	}
-	
+
 	/**
 	 * 
 	 * @param length
@@ -353,7 +352,7 @@ public class Utility {
 	 * @since 2022-03-02
 	 */
 	public static ArrayList<String> generateAlphanumeric(int length, int count) {
-		ArrayList<String> value =new ArrayList<String>();
+		ArrayList<String> value = new ArrayList<String>();
 		if (Utility.isBlank(count)) {
 			return null;
 		}
@@ -361,5 +360,99 @@ public class Utility {
 			value.add(generateAlphanumeric(length));
 		}
 		return value;
+	}
+
+	/**
+	 * This method is used to remove extra spaces from given sentence
+	 * 
+	 * @author Siva Priya
+	 * @since 2022-02-21
+	 * @param myText
+	 * @return String
+	 */
+	public static String removeExtraSpcaes(String text) {
+		if (Utility.isBlank(text)) {
+			return null;
+		}
+		return text.replaceAll("( )+", " ");
+	}
+
+	/**
+	 * This method is used to remove all special characters and extra spaces from
+	 * the sentence
+	 * 
+	 * @author Siva Priya
+	 * @since 2022-02-21
+	 * @param myText
+	 * @return String
+	 */
+	public static String removeSpecialCharacters(String text) {
+		if (Utility.isBlank(text)) {
+			return null;
+		}
+		return text.replaceAll("[^a-zA-Z0-9]+()+", " ");
+	}
+
+	/**
+	 * This method is used to print given number of zeros
+	 * 
+	 * @author Siva Priya
+	 * @since 2022-02-21
+	 * @param count
+	 * @return String
+	 */
+	public static String generateZeros(int count) {
+		if (Utility.isBlank(count)) {
+			return null;
+		}
+		return String.format("%0" + count + "d", 0);
+	}
+
+	/**
+	 * This method is used to find out the particular id from the youtube url and
+	 * coverted into given format
+	 * 
+	 * @author Siva Priya
+	 * @since 2022-02-22
+	 * @param videoUrl
+	 * @return String
+	 */
+	public static String extractEmbeddedId(String url) {
+		if (Utility.isBlank(url)) {
+			return null;
+		}
+		String format = "https://www.youtube.com/embed/";
+		String videoId = "";
+		String regex = "http(?:s)?:\\/\\/(?:m.)?(?:www\\.)?youtu(?:\\.be\\/|be\\.com\\/(?:watch\\?(?:feature=youtu.be\\&)?v=|v\\/|embed\\/|user\\/(?:[\\w#]+\\/)+))([^&#?\\n]+)";
+		Pattern pattern = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
+		Matcher matcher = pattern.matcher(url);
+		if (matcher.find()) {
+			videoId = matcher.group(1);
+		}
+		return format.concat(videoId);
+	}
+
+	/**
+	 * This method is used to check given ip address is valid or not
+	 * 
+	 * @author Siva Priya
+	 * @since 2022-02-22
+	 * @param ip
+	 * @return boolean
+	 */
+	public static boolean isValidIpAddress(String ip) {
+		if (Utility.isBlank(ip)) {
+			return false;
+		}
+	    String ipV4 = "(([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\.){3}([01]?\\d\\d?|2[0-4]\\d|25[0-5])";
+	    String ipV6 = "([0-9a-f]{1,4}:){7}([0-9a-f]){1,4}";
+		Pattern ipv4Pattern = Pattern.compile(ipV4, Pattern.CASE_INSENSITIVE);
+		Pattern ipv6Pattern = Pattern.compile(ipV6, Pattern.CASE_INSENSITIVE);
+		Matcher match = ipv4Pattern.matcher(ip);
+		Matcher matcher = ipv6Pattern.matcher(ip);
+		if (match.matches() || matcher.matches()) {
+			return true;
+		}
+		return false;
 	}
 }
