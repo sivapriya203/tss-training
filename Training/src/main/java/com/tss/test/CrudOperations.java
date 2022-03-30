@@ -16,7 +16,7 @@ public class CrudOperations {
 	public static final int PORT = 3306;
 
 	@SuppressWarnings("serial")
-	public static void main(String[] args) throws SQLException, IOException {
+	public static void main(String[] args) throws SQLException, IOException, ClassNotFoundException {
 		Connection connection = DbUtil.getConnection("localhost", PORT, SCHEMA, USER_NAME, PASSWORD);
 //		 System.out.println(DbUtil.get(connection, "SELECT * FROM app_menu WHERE  pk_id=?" ,6));
 //	     System.out.println(DbUtil.getGeneratedKey(connection, "INSERT INTO app_menu(lang, name, description)" + "VALUES(?, ?, ?)", "Eng" ,"Amazon" ,"This is from java"));

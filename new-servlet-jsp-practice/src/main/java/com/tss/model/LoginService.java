@@ -1,5 +1,6 @@
 package com.tss.model;
 
+
 public class LoginService {
 
 	/**
@@ -15,5 +16,6 @@ public class LoginService {
 			return false;
 		}
 	}
+	
 
 }
